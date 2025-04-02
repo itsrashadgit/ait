@@ -1,2 +1,2 @@
-# ait
+# AiT
 Aroma Information Technology
