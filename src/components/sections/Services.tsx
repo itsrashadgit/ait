@@ -1,4 +1,5 @@
-
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Monitor, Smartphone, Globe, Database, Cog, BarChart } from "lucide-react";
@@ -8,36 +9,42 @@ export const Services = () => {
     {
       icon: Monitor,
       title: "Web Development",
+      slag: "web-development",
       description: "Custom websites and web applications built with modern technologies",
       features: ["Responsive Design", "SEO Optimization", "Fast Loading", "Secure Coding"]
     },
     {
       icon: Smartphone,
       title: "Mobile App Development",
+      slag: "web-development",
       description: "Native and cross-platform mobile applications for iOS and Android",
       features: ["Native Performance", "Cross-Platform", "App Store Ready", "Push Notifications"]
     },
     {
       icon: Globe,
       title: "Digital Marketing",
+      slag: "web-development",
       description: "Comprehensive digital marketing strategies to grow your online presence",
       features: ["SEO/SEM", "Social Media", "Content Marketing", "Analytics"]
     },
     {
       icon: Database,
       title: "Data Management",
+      slag: "web-development",
       description: "Secure data storage, backup, and analytics solutions",
       features: ["Cloud Storage", "Data Backup", "Analytics", "Security"]
     },
     {
       icon: Cog,
       title: "System Integration",
+      slag: "web-development",
       description: "Seamless integration of various business systems and applications",
       features: ["API Integration", "Automation", "Workflow", "Optimization"]
     },
     {
       icon: BarChart,
       title: "Business Intelligence",
+      slag: "web-development",
       description: "Transform your data into actionable business insights",
       features: ["Data Visualization", "Reporting", "Predictive Analytics", "Dashboard"]
     }
@@ -83,11 +90,11 @@ export const Services = () => {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="w-full group-hover:bg-blue-600 group-hover:text-white transition-all duration-300"
                   >
-                    Learn More
+                    <Link to={service.slag}>Learn More</Link>
                   </Button>
                 </CardContent>
               </Card>

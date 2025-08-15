@@ -2,9 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle } from "lucide-react";
 
-export const Hero = () => {
+export const Home = () => {
   const scrollToPricing = () => {
     const element = document.getElementById("pricing");
+    element?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToFeatures = () => {
+    const element = document.getElementById("features");
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -33,6 +38,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg"
+              onClick={scrollToFeatures}
               className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg"
             >
               Learn More

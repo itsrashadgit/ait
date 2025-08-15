@@ -66,9 +66,9 @@ const PrivacyPolicy = () => {
                 If you have any questions about this Privacy Policy, please contact us at:
               </p>
               <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700">Email: privacy@aromait.com</p>
-                <p className="text-gray-700">Phone: +1 (555) 123-4567</p>
-                <p className="text-gray-700">Address: 123 Tech Street, San Francisco, CA 94105</p>
+                <p className="text-gray-700">Email: info@aromait.com</p>
+                <p className="text-gray-700">Phone: +8801717643014</p>
+                <p className="text-gray-700">Address: 235/1, West Rampura, Wapda Road, Dhaka-1219, Bangladesh.</p>
               </div>
             </section>
           </div>

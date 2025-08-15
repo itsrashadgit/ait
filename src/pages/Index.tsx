@@ -1,5 +1,5 @@
 
-import { Hero } from "@/components/sections/Hero";
+import { Home } from "@/components/sections/Home";
 import { Features } from "@/components/sections/Features";
 import { Services } from "@/components/sections/Services";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -14,7 +14,7 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header />
       <main>
-        <Hero />
+        <Home />
         <Features />
         <Services />
         <HowItWorks />

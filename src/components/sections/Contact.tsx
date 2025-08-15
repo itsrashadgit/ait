@@ -1,11 +1,11 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button"; 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export const Contact = () => {
   const [formData, setFormData] = useState({
@@ -13,51 +13,55 @@ export const Contact = () => {
     email: "",
     phone: "",
     company: "",
-    message: ""
+    message: "",
+    created_at: "",
+    updated_at: ""
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYouPopup, setShowThankYouPopup] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (submitted) return; // Prevent multiple submissions
+    setIsSubmitting(true);
+    setSubmissionError(null);
 
-    // Sending data to the backend service for email
-    fetch('https://aromait.com/api/contact', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    }).then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+    try {
+      const response = await fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setShowThankYouPopup(true);
+        setFormData({ name: '', email: '', phone: '', company: '', message: '', created_at: '', updated_at: '' }); // Clear form
+      } else {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('text/html')) {
+          setSubmissionError('An unexpected error occurred. Please try again later.');
+        } else {
+          const errorData = await response.json();
+          setSubmissionError(errorData.message || 'An error occurred while sending your message.');
         }
-        return response.json();
-      }).then(data => {
-        setSubmitted(true); // Indicate successful submission visually
-      }).catch(error => {
-        console.error('Error sending email:', error);
-        // Optionally, show an error message to the user
-      });
-    };
-  
-    const handleCloseThankYou = () => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        message: ""
-      });
-    };
-  
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-      });
-    };
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmissionError('An error occurred while sending your message. Please try again later.');
+    } finally {
+      setIsSubmitting(true);
+    }
+  };
 
   return (
     <section id="contact" className="py-20 px-4 bg-gradient-to-br from-gray-50 to-blue-50">
@@ -133,25 +137,7 @@ export const Contact = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {submitted ? (
-                <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="bg-green-100 p-4 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <h3 className="text-3xl font-bold text-gray-800">Thank You!</h3>
-                  <p className="text-gray-600 text-lg">
-                    Your message has been successfully submitted. Our team will get back to you within 24 hours.
-                  </p>
-                  <p className="text-gray-600 text-sm">
-                    You should receive a confirmation email shortly.
-                  </p>
-                  <Button onClick={handleCloseThankYou} className="mt-6 bg-blue-600 hover:bg-blue-700">
-                    Close
-                  </Button>
-                </div>
-              ) : (
+              {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -163,6 +149,7 @@ export const Contact = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="Your Full Name"
+                        autoComplete
                       />
                     </div>
                     <div className="space-y-2">
@@ -175,6 +162,7 @@ export const Contact = () => {
                         onChange={handleInputChange}
                         required
                         placeholder="Your_Email@example.com"
+                        autoComplete
                       />
                     </div>
                   </div>
@@ -186,11 +174,13 @@ export const Contact = () => {
                       value={formData.company}
                       onChange={handleInputChange}
                       placeholder="Your Company Name"
+                      autoComplete
                       />
                     </div>
 
-                  {/* Phone Number Input - Moved out of incorrect grid */}
+                  {/* Phone Number Input */}
                   <div className="space-y-2">
+                     <Label htmlFor="phone">Phone</Label>
                     <Input
                       id="phone"
                       name="phone"
@@ -198,6 +188,7 @@ export const Contact = () => {
                       value={formData.phone}
                       onChange={handleInputChange}
                       placeholder="+1 (555) 123-4567"
+                      autoComplete
                     />
                   </div>
                   {/* Message Textarea */}
@@ -212,14 +203,40 @@ export const Contact = () => {
                       placeholder="Tell us about your project requirements..."
                       rows={5}
                     />
+                    <Input
+                      id="created"
+                      type="hidden"
+                      name="created_at"
+                      value={formData.created_at}
+                      />
+                    <Input
+                      id="updated"
+                      type="hidden"
+                      name="updated_at"
+                      value={formData.updated_at}
+                      />
                   </div>
-                  <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-3">Send Message</Button>
-                  </form>
-              )}
+                  {submissionError && <p className="text-red-500 text-sm">{submissionError}</p>}
+                  <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-3" disabled={isSubmitting}>
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
+                  </Button>
+                </form>
+              }
             </CardContent>
           </Card>
         </div>
       </div>
+      {/* Thank You Popup */}
+      <Dialog open={showThankYouPopup} onOpenChange={setShowThankYouPopup}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Thank You!</DialogTitle>
+            <DialogDescription>
+              Your message has been sent successfully. We will get back to you shortly.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

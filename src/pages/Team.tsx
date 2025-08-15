@@ -7,26 +7,26 @@ import { Linkedin, Twitter, Mail } from "lucide-react";
 const Team = () => {
   const teamMembers = [
     {
-      name: "Sarah Johnson",
+      name: "Rashadul Islam",
       role: "CEO & Founder",
       image: "/placeholder.svg",
       bio: "With over 15 years in IT leadership, Sarah drives our vision for innovative technology solutions.",
       linkedin: "#",
       twitter: "#",
-      email: "sarah@aromait.com"
+      email: "info@aromait.com"
     },
     {
-      name: "Michael Chen",
+      name: "Mozammel Haque",
       role: "CTO",
       image: "/placeholder.svg",
       bio: "Michael leads our technical team with expertise in cloud architecture and cybersecurity.",
       linkedin: "#",
       twitter: "#",
-      email: "michael@aromait.com"
+      email: "info@aromait.com"
     },
     {
-      name: "Emily Rodriguez",
-      role: "Head of Development",
+      name: "Rabiul Hasan Rahat",
+      role: "Application Developer",
       image: "/placeholder.svg",
       bio: "Emily oversees our development projects with a focus on quality and client satisfaction.",
       linkedin: "#",
@@ -34,8 +34,8 @@ const Team = () => {
       email: "emily@aromait.com"
     },
     {
-      name: "David Kim",
-      role: "Lead DevOps Engineer",
+      name: "Alamgir Hosen",
+      role: "SEO & Digital Marketing",
       image: "/placeholder.svg",
       bio: "David ensures our systems run smoothly with his expertise in automation and infrastructure.",
       linkedin: "#",

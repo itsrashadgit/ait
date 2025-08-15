@@ -2,9 +2,9 @@
   "name": "ait",
   "private": true,
   "version": "1.0.0",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
@@ -93,7 +93,6 @@
     "Application"
   ],
   "description": "AiT Application Website",
-  "main": "eslint.config.js",
   "author": "itsRashad",
   "license": "ISC",
   "repository": {

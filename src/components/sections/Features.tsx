@@ -11,7 +11,7 @@ export const Features = () => {
     },
     {
       icon: Shield,
-      title: "Cybersecurity",
+      title: "Cyber Security",
       description: "Advanced security solutions to protect your digital assets and data"
     },
     {

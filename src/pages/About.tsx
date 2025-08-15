@@ -11,7 +11,7 @@ const About = () => {
       
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Hero Section */}
+          {/* Home Section */}
           <section className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               About AiT
